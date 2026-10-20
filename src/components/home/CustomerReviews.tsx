@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { customerReviews } from "@/mocks/reviews";
+import { IoArrowBack, IoArrowForwardOutline } from "react-icons/io5";
 
 export default function CustomerReviews() {
   const sliderRef = useRef<HTMLDivElement>(null);
@@ -33,7 +34,7 @@ export default function CustomerReviews() {
             aria-label="Previous reviews"
             className="text-2xl text-black transition hover:text-gray-500"
           >
-            ←
+            <IoArrowBack />
           </button>
 
           <button
@@ -42,7 +43,7 @@ export default function CustomerReviews() {
             aria-label="Next reviews"
             className="text-2xl text-black transition hover:text-gray-500"
           >
-            →
+            <IoArrowForwardOutline />
           </button>
         </div>
       </div>
