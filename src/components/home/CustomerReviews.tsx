@@ -20,10 +20,10 @@ export default function CustomerReviews() {
   };
 
   return (
-    <section className="mx-auto max-w-[1240px] px-5 py-10 sm:px-8 lg:px-10">
-      {/* Heading */}
-      <div className="mb-3 flex items-center justify-between gap-4">
-        <h2 className="text-2xl font-black uppercase tracking-tight text-black sm:text-2xl lg:text-3xl">
+    <section className="mx-auto max-w-[1240px] px-5 py-12 sm:px-6 sm:py-16">
+      {/* Heading & Navigation */}
+      <div className="mb-8 flex items-center justify-between sm:mb-10">
+        <h2 className="font-integral text-3xl font-extrabold uppercase tracking-tight text-black sm:text-4xl lg:text-5xl">
           Our Happy Customers
         </h2>
 
@@ -32,7 +32,7 @@ export default function CustomerReviews() {
             type="button"
             onClick={() => scrollReviews("left")}
             aria-label="Previous reviews"
-            className="text-2xl text-black transition hover:text-gray-500"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-2xl text-black transition hover:bg-neutral-100"
           >
             <IoArrowBack />
           </button>
@@ -41,43 +41,42 @@ export default function CustomerReviews() {
             type="button"
             onClick={() => scrollReviews("right")}
             aria-label="Next reviews"
-            className="text-2xl text-black transition hover:text-gray-500"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-2xl text-black transition hover:bg-neutral-100"
           >
             <IoArrowForwardOutline />
           </button>
         </div>
       </div>
 
-      {/* Review carousel */}
+      {/* Review Carousel */}
       <div
         ref={sliderRef}
-        className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="flex snap-x snap-mandatory gap-5 overflow-x-auto scroll-smooth pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
         {customerReviews.map((review) => (
           <article
             key={review.id}
-            className="w-[85%] shrink-0 snap-start rounded-2xl border border-gray-200 p-5 sm:w-[calc(50%-8px)] lg:w-[calc(33.333%-11px)]"
+            className="w-[88%] shrink-0 snap-start rounded-[20px] border border-black/10 p-6 sm:w-[calc(50%-10px)] md:p-8 lg:w-[calc(33.333%-14px)]"
           >
-            {/* Stars */}
-            <div
-              className="mb-2 text-lg leading-none tracking-wide text-amber-400"
-              aria-label={`${review.rating} out of 5 stars`}
-            >
-              {"★".repeat(review.rating)}
-              <span className="text-gray-200">
-                {"★".repeat(5 - review.rating)}
-              </span>
+            {/* 5 Yellow Stars */}
+            <div className="flex text-[#FFC633]">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <span key={i} className="text-xl leading-none">
+                  {i < review.rating ? "★" : "☆"}
+                </span>
+              ))}
             </div>
 
-            {/* Name */}
-            <div className="mb-2 flex items-center gap-2">
-              <h3 className="text-sm font-bold text-black">{review.name}</h3>
+            {/* Customer Name & Verified Badge */}
+            <div className="mt-3.5 flex items-center gap-1.5">
+              <span className="text-base font-bold text-black sm:text-lg">
+                {review.name}
+              </span>
 
               {review.verified && (
                 <span
-                  className="flex h-4 w-4 items-center justify-center rounded-full bg-green-600 text-[10px] font-bold text-white"
-                  aria-label="Verified customer"
-                  title="Verified customer"
+                  title="Verified Customer"
+                  className="flex h-4 w-4 items-center justify-center rounded-full bg-[#01AB31] text-[10px] text-white"
                 >
                   ✓
                 </span>
@@ -85,8 +84,8 @@ export default function CustomerReviews() {
             </div>
 
             {/* Comment */}
-            <p className="text-sm leading-5 text-gray-500">
-              "{review.comment}"
+            <p className="mt-3 text-sm leading-6 text-black/60 sm:text-base">
+              {review.comment}
             </p>
           </article>
         ))}

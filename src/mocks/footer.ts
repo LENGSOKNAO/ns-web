@@ -1,4 +1,5 @@
 export const footerData = {
+  brand: "SHOP.CO",
   description:
     "We have clothes that suit your style and which you're proud to wear. From women to men.",
 
@@ -52,13 +53,13 @@ export const footerData = {
     },
   ],
 
-  copyright: "Sstore.co © 2025-2026, All Rights Reserved",
+  copyright: "Shop.co © 2000-2023, All Rights Reserved",
 
   paymentMethods: [
-    { id: 1, name: "Visa", image: "/images/payments/visa.png" },
-    { id: 2, name: "Mastercard", image: "/images/payments/mastercard.png" },
-    { id: 3, name: "PayPal", image: "/images/payments/paypal.png" },
-    { id: 4, name: "Apple Pay", image: "/images/payments/apple-pay.png" },
-    { id: 5, name: "Google Pay", image: "/images/payments/google-pay.png" },
+    { id: 1, name: "Visa" },
+    { id: 2, name: "Mastercard" },
+    { id: 3, name: "PayPal" },
+    { id: 4, name: "Apple Pay" },
+    { id: 5, name: "Google Pay" },
   ],
 };

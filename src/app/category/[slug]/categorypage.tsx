@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function CategoryContent({ category, slug }: Props) {
-  const [maxPrice, setMaxPrice] = useState(100);
+  const [maxPrice, setMaxPrice] = useState(250);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [saleOnly, setSaleOnly] = useState(false);
@@ -60,35 +60,35 @@ export default function CategoryContent({ category, slug }: Props) {
     );
   }
 
-  const colors = ["White", "Black", "Blue", "Green"];
-  const sizes = ["S", "M", "L", "XL", "One Size"];
+  const colors = ["White", "Black", "Blue", "Green", "Red", "Orange"];
+  const sizes = ["Small", "Medium", "Large", "X-Large"];
 
   return (
-    <main className="mx-auto max-w-[1440px] px-5 py-8 md:px-10 lg:px-20">
-      <div className="mb-6 flex gap-2 text-sm text-gray-500">
-        <Link href="/">Home</Link>
-        <span>/</span>
-        <Link href="/category">Shop</Link>
-        <span>/</span>
-        <span className="text-black">{category}</span>
+    <main className="mx-auto max-w-[1240px] px-5 py-8 md:px-6">
+      {/* Breadcrumbs */}
+      <div className="mb-6 flex gap-2 text-sm text-black/60">
+        <Link href="/" className="hover:text-black">
+          Home
+        </Link>
+        <span>&gt;</span>
+        <span className="capitalize text-black">{category}</span>
       </div>
 
-      <h1 className="mb-8 text-3xl font-black sm:text-4xl">{category}</h1>
-
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-[230px_minmax(0,1fr)]">
-        <aside className="self-start rounded-2xl border border-gray-200 p-5">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-bold">Filters</h2>
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-[250px_minmax(0,1fr)]">
+        {/* Filters Sidebar */}
+        <aside className="self-start rounded-[20px] border border-black/10 p-5 sm:p-6">
+          <div className="mb-4 flex items-center justify-between border-b border-black/10 pb-4">
+            <h2 className="text-xl font-bold text-black">Filters</h2>
             <button
               type="button"
               onClick={() => {
-                setMaxPrice(100);
+                setMaxPrice(250);
                 setSelectedColors([]);
                 setSelectedSizes([]);
                 setSaleOnly(false);
                 setSort("recommended");
               }}
-              className="text-sm text-gray-500 underline"
+              className="text-xs text-black/60 underline hover:text-black"
             >
               Reset
             </button>
@@ -107,13 +107,13 @@ export default function CategoryContent({ category, slug }: Props) {
                       <Link
                         key={item}
                         href={`/category/${item}`}
-                        className={
+                        className={`capitalize transition ${
                           item === slug
-                            ? "font-semibold text-black"
-                            : "text-gray-500"
-                        }
+                            ? "font-bold text-black"
+                            : "text-black/60 hover:text-black"
+                        }`}
                       >
-                        {item.charAt(0).toUpperCase() + item.slice(1)}
+                        {item}
                       </Link>
                     ),
                   )}
@@ -124,14 +124,14 @@ export default function CategoryContent({ category, slug }: Props) {
             <AccordionItem value="price">
               <AccordionTrigger>Price</AccordionTrigger>
               <AccordionContent>
-                <p className="mb-2 text-sm text-gray-600">
+                <p className="mb-2 text-sm text-black/60">
                   Maximum price: ${maxPrice}
                 </p>
                 <input
                   type="range"
-                  min="10"
-                  max="100"
-                  step="5"
+                  min="20"
+                  max="300"
+                  step="10"
                   value={maxPrice}
                   onChange={(event) => setMaxPrice(Number(event.target.value))}
                   className="w-full accent-black"
@@ -140,7 +140,7 @@ export default function CategoryContent({ category, slug }: Props) {
             </AccordionItem>
 
             <AccordionItem value="color">
-              <AccordionTrigger>Color</AccordionTrigger>
+              <AccordionTrigger>Colors</AccordionTrigger>
               <AccordionContent>
                 <div className="flex flex-wrap gap-2">
                   {colors.map((color) => (
@@ -151,10 +151,10 @@ export default function CategoryContent({ category, slug }: Props) {
                         toggleValue(color, selectedColors, setSelectedColors)
                       }
                       aria-pressed={selectedColors.includes(color)}
-                      className={`rounded-full border px-3 py-2 text-xs ${
+                      className={`rounded-full border px-3 py-1.5 text-xs transition ${
                         selectedColors.includes(color)
                           ? "border-black bg-black text-white"
-                          : "border-gray-300"
+                          : "border-black/10 text-black/70 hover:border-black"
                       }`}
                     >
                       {color}
@@ -176,10 +176,10 @@ export default function CategoryContent({ category, slug }: Props) {
                         toggleValue(size, selectedSizes, setSelectedSizes)
                       }
                       aria-pressed={selectedSizes.includes(size)}
-                      className={`rounded-full border px-3 py-2 text-xs ${
+                      className={`rounded-full px-3.5 py-1.5 text-xs transition ${
                         selectedSizes.includes(size)
-                          ? "border-black bg-black text-white"
-                          : "border-gray-300"
+                          ? "bg-black text-white"
+                          : "bg-[#F0F0F0] text-black/60 hover:bg-neutral-200"
                       }`}
                     >
                       {size}
@@ -190,7 +190,7 @@ export default function CategoryContent({ category, slug }: Props) {
             </AccordionItem>
           </Accordion>
 
-          <label className="mt-4 flex items-center gap-2 text-sm">
+          <label className="mt-4 flex items-center gap-2 text-sm text-black">
             <input
               type="checkbox"
               checked={saleOnly}
@@ -201,19 +201,25 @@ export default function CategoryContent({ category, slug }: Props) {
           </label>
         </aside>
 
+        {/* Products Grid */}
         <section>
-          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-sm text-gray-500">
-              Showing {products.length} products
-            </p>
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h1 className="font-integral text-2xl font-black uppercase text-black sm:text-3xl">
+                {category}
+              </h1>
+              <p className="mt-1 text-xs text-black/60 sm:text-sm">
+                Showing {products.length} products
+              </p>
+            </div>
 
             <select
               value={sort}
               onChange={(event) => setSort(event.target.value)}
               aria-label="Sort products"
-              className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-black"
+              className="rounded-full border border-black/10 bg-white px-4 py-2 text-sm text-black focus:outline-none"
             >
-              <option value="recommended">Recommended</option>
+              <option value="recommended">Most Popular</option>
               <option value="price-low">Price: Low to High</option>
               <option value="price-high">Price: High to Low</option>
               <option value="rating">Highest Rated</option>
@@ -222,41 +228,66 @@ export default function CategoryContent({ category, slug }: Props) {
 
           {products.length > 0 ? (
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-              {products.map((product) => (
-                <Link
-                  key={product.id}
-                  href={`/products/${product.id}`}
-                  className="group min-w-0"
-                >
-                  <div className="mb-3 aspect-[4/5] overflow-hidden rounded-2xl bg-gray-100">
-                    <img
-                      src={product.image}
-                      alt={product.name}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
+              {products.map((product) => {
+                const productSlug = product.name
+                  .toLowerCase()
+                  .replace(/[^a-z0-9]+/g, "-");
+                return (
+                  <Link
+                    key={product.id}
+                    href={`/products/${productSlug}`}
+                    className="group min-w-0 flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="relative mb-3 aspect-square w-full overflow-hidden rounded-[20px] bg-[#F0EEED] flex items-center justify-center p-4">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          loading="lazy"
+                          className="h-full w-full object-contain transition-transform duration-300 group-hover:scale-105 drop-shadow-sm"
+                        />
+                      </div>
 
-                  <h3 className="truncate font-semibold">{product.name}</h3>
-                  <p className="mt-1 text-sm text-amber-500">
-                    ★ {product.rating.toFixed(1)}
-                  </p>
+                      <h3 className="truncate font-bold text-base capitalize text-black">
+                        {product.name}
+                      </h3>
+                      <div className="mt-1 flex items-center gap-1.5 text-sm">
+                        <div className="flex text-[#FFC633]">
+                          {Array.from({ length: 5 }).map((_, i) => (
+                            <span key={i} className="text-sm leading-none">
+                              {i < Math.floor(product.rating) ? "★" : "☆"}
+                            </span>
+                          ))}
+                        </div>
+                        <span className="text-xs text-black/60">
+                          {product.rating}/5
+                        </span>
+                      </div>
+                    </div>
 
-                  <div className="mt-1 flex flex-wrap gap-2">
-                    <span className="font-bold">${product.price}</span>
-                    {product.oldPrice && (
-                      <span className="text-sm text-gray-400 line-through">
-                        ${product.oldPrice}
+                    <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                      <span className="font-bold text-lg text-black">
+                        ${product.price}
                       </span>
-                    )}
-                  </div>
-                </Link>
-              ))}
+                      {product.oldPrice && (
+                        <span className="text-sm font-bold text-black/40 line-through">
+                          ${product.oldPrice}
+                        </span>
+                      )}
+                      {product.oldPrice && (
+                        <span className="rounded-full bg-[#FF3333]/10 px-2 py-0.5 text-[11px] font-semibold text-[#FF3333]">
+                          -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
+                        </span>
+                      )}
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-gray-300 py-16 text-center">
-              <h2 className="font-semibold">No products found</h2>
-              <p className="mt-2 text-sm text-gray-500">
+            <div className="rounded-[20px] border border-dashed border-black/20 py-16 text-center">
+              <h2 className="font-bold text-black">No products found</h2>
+              <p className="mt-2 text-sm text-black/60">
                 Try adjusting your filters.
               </p>
             </div>

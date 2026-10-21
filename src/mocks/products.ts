@@ -1,42 +1,5 @@
 import type { Product } from "@/types/catalog";
 
-export const newArrivals: Product[] = [
-  {
-    id: 1,
-    name: "T-shirt with Tape Details",
-    price: 120,
-    image: "/images/products/tape-tshirt.png",
-    rating: 4.5,
-  },
-  {
-    id: 2,
-    name: "Skinny Fit Jeans",
-    price: 240,
-    originalPrice: 260,
-    discount: 20,
-    image: "/images/products/skinny-jeans.png",
-    rating: 3.5,
-  },
-];
-
-export const topSelling: Product[] = [
-  {
-    id: 3,
-    name: "Vertical Striped Shirt",
-    price: 212,
-    originalPrice: 232,
-    discount: 20,
-    image: "/images/products/striped-shirt.png",
-    rating: 5,
-  },
-  {
-    id: 4,
-    name: "Courage Graphic T-shirt",
-    price: 145,
-    image: "/images/products/graphic-tshirt.png",
-    rating: 4,
-  },
-];
 export type category = "men" | "women" | "kids" | "accessories";
 
 export interface ShopProduct {
@@ -45,106 +8,197 @@ export interface ShopProduct {
   category: category;
   price: number;
   oldPrice?: number;
+  originalPrice?: number;
+  discount?: number;
   rating: number;
   color: string;
+  colors?: string[];
   sizes: string[];
   image: string;
+  gallery?: string[];
+  description?: string;
   sale?: boolean;
 }
+
+export const newArrivals: Product[] = [
+  {
+    id: 1,
+    name: "T-shirt with Tape Details",
+    price: 120,
+    rating: 4.5,
+    image: "/images/products/tape-tshirt.png",
+  },
+  {
+    id: 2,
+    name: "Skinny Fit Jeans",
+    price: 240,
+    originalPrice: 260,
+    discount: 20,
+    rating: 3.5,
+    image: "/images/products/skinny-jeans.png",
+  },
+  {
+    id: 3,
+    name: "Checkered Shirt",
+    price: 180,
+    rating: 4.5,
+    image: "/images/products/checkered-shirt.png",
+  },
+  {
+    id: 4,
+    name: "Sleeve Striped T-shirt",
+    price: 130,
+    originalPrice: 160,
+    discount: 30,
+    rating: 4.5,
+    image: "/images/products/sleeve-striped.png",
+  },
+];
+
+export const topSelling: Product[] = [
+  {
+    id: 5,
+    name: "Vertical Striped Shirt",
+    price: 212,
+    originalPrice: 232,
+    discount: 20,
+    rating: 5.0,
+    image: "/images/products/vertical-striped.png",
+  },
+  {
+    id: 6,
+    name: "Courage Graphic T-shirt",
+    price: 145,
+    rating: 4.0,
+    image: "/images/products/courage-tshirt.png",
+  },
+  {
+    id: 7,
+    name: "Loose Fit Bermuda Shorts",
+    price: 80,
+    rating: 3.0,
+    image: "/images/products/bermuda-shorts.png",
+  },
+  {
+    id: 8,
+    name: "Faded Skinny Jeans",
+    price: 210,
+    rating: 4.5,
+    image: "/images/products/faded-jeans.png",
+  },
+];
 
 export const productsData: ShopProduct[] = [
   {
     id: 1,
-    name: "Classic White T-Shirt",
+    name: "T-shirt with Tape Details",
     category: "men",
-    price: 25,
-    oldPrice: 30,
+    price: 120,
     rating: 4.5,
-    color: "White",
-    sizes: ["S", "M", "L", "XL"],
-    image:
-      "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=80",
-    sale: true,
+    color: "Black",
+    colors: ["#4F4631", "#314F4A", "#31344F"],
+    sizes: ["Small", "Medium", "Large", "X-Large"],
+    image: "/images/products/tape-tshirt.png",
+    gallery: [
+      "/images/products/tape-tshirt.png",
+      "/images/products/tape-tshirt-thumb2.png",
+      "/images/products/tape-tshirt-thumb3.png",
+    ],
+    description:
+      "This graphic t-shirt which is perfect for any occasion. Crafted from a soft and breathable fabric, it offers superior comfort and style.",
   },
   {
     id: 2,
-    name: "Casual Denim Jacket",
+    name: "Skinny Fit Jeans",
     category: "men",
-    price: 65,
-    rating: 4.7,
+    price: 240,
+    oldPrice: 260,
+    originalPrice: 260,
+    discount: 20,
+    rating: 3.5,
     color: "Blue",
-    sizes: ["M", "L", "XL"],
-    image:
-      "https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=700&q=80",
-  },
-  {
-    id: 3,
-    name: "Relaxed Fit Hoodie",
-    category: "men",
-    price: 45,
-    oldPrice: 55,
-    rating: 4.3,
-    color: "Black",
-    sizes: ["S", "M", "L"],
-    image:
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=80",
+    colors: ["#1e3a8a", "#111827", "#4b5563"],
+    sizes: ["Medium", "Large", "X-Large"],
+    image: "/images/products/skinny-jeans.png",
+    gallery: ["/images/products/skinny-jeans.png"],
+    description:
+      "Modern skinny jeans crafted from stretch-cotton denim for effortless everyday flexibility and a streamlined silhouette.",
     sale: true,
   },
   {
+    id: 3,
+    name: "Checkered Shirt",
+    category: "men",
+    price: 180,
+    rating: 4.5,
+    color: "Red",
+    colors: ["#b91c1c", "#1e3a8a", "#047857"],
+    sizes: ["Small", "Medium", "Large"],
+    image: "/images/products/checkered-shirt.png",
+    description:
+      "Premium woven cotton plaid shirt with tailored collar and button cuffs. Perfect layered or buttoned up.",
+  },
+  {
     id: 4,
-    name: "Everyday Women's Top",
-    category: "women",
-    price: 32,
-    rating: 4.6,
-    color: "White",
-    sizes: ["S", "M", "L"],
-    image:
-      "https://images.unsplash.com/photo-1551163943-3f6a855d1153?auto=format&fit=crop&w=700&q=80",
+    name: "Sleeve Striped T-shirt",
+    category: "men",
+    price: 130,
+    oldPrice: 160,
+    originalPrice: 160,
+    discount: 30,
+    rating: 4.5,
+    color: "Orange",
+    colors: ["#ea580c", "#000000", "#2563eb"],
+    sizes: ["Small", "Medium", "Large", "X-Large"],
+    image: "/images/products/sleeve-striped.png",
+    sale: true,
   },
   {
     id: 5,
-    name: "Women's Denim Jeans",
-    category: "women",
-    price: 55,
-    oldPrice: 70,
-    rating: 4.8,
-    color: "Blue",
-    sizes: ["S", "M", "L", "XL"],
-    image:
-      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=700&q=80",
+    name: "Vertical Striped Shirt",
+    category: "men",
+    price: 212,
+    oldPrice: 232,
+    originalPrice: 232,
+    discount: 20,
+    rating: 5.0,
+    color: "Green",
+    colors: ["#065f46", "#1e3a8a", "#374151"],
+    sizes: ["Medium", "Large", "X-Large"],
+    image: "/images/products/vertical-striped.png",
     sale: true,
   },
   {
     id: 6,
-    name: "Kids Casual T-Shirt",
-    category: "kids",
-    price: 18,
-    rating: 4.2,
-    color: "Green",
-    sizes: ["S", "M"],
-    image:
-      "https://images.unsplash.com/photo-1503919005314-30d93d07d823?auto=format&fit=crop&w=700&q=80",
+    name: "Courage Graphic T-shirt",
+    category: "men",
+    price: 145,
+    rating: 4.0,
+    color: "Orange",
+    colors: ["#ea580c", "#000000", "#ffffff"],
+    sizes: ["Small", "Medium", "Large"],
+    image: "/images/products/courage-tshirt.png",
   },
   {
     id: 7,
-    name: "Everyday Shoulder Bag",
-    category: "accessories",
-    price: 40,
-    rating: 4.5,
-    color: "Black",
-    sizes: ["One Size"],
-    image:
-      "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=80",
+    name: "Loose Fit Bermuda Shorts",
+    category: "men",
+    price: 80,
+    rating: 3.0,
+    color: "Blue",
+    colors: ["#1e3a8a", "#374151", "#d97706"],
+    sizes: ["Small", "Medium", "Large"],
+    image: "/images/products/bermuda-shorts.png",
   },
   {
     id: 8,
-    name: "Classic Baseball Cap",
-    category: "accessories",
-    price: 20,
-    rating: 4.1,
+    name: "Faded Skinny Jeans",
+    category: "men",
+    price: 210,
+    rating: 4.5,
     color: "Black",
-    sizes: ["One Size"],
-    image:
-      "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=700&q=80",
+    colors: ["#111827", "#1e3a8a", "#6b7280"],
+    sizes: ["Medium", "Large", "X-Large"],
+    image: "/images/products/faded-jeans.png",
   },
 ];

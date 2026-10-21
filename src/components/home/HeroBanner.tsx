@@ -1,169 +1,66 @@
 "use client";
-import { useEffect, useState } from "react";
-import { getBanners } from "@/services/banner.service";
-import type { Banner } from "@/types/catalog";
+
+import Link from "next/link";
+import HeroStats from "./HeroStats";
+
+function Sparkle({ className }: { className: string }) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      fill="currentColor"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M50 0C50 27.614 72.386 50 100 50C72.386 50 50 72.386 50 100C50 72.386 27.614 50 0 50C27.614 50 50 27.614 50 0Z" />
+    </svg>
+  );
+}
 
 export default function HeroBanner() {
-  const [banners, setBanners] = useState<Banner[]>([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadBanners() {
-      try {
-        const data = await getBanners();
-
-        if (!cancelled) {
-          setBanners(data);
-          setError("");
-        }
-      } catch (err) {
-        if (!cancelled) {
-          setError(
-            err instanceof Error ? err.message : "Unable to load banners.",
-          );
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    }
-
-    loadBanners();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (banners.length < 2) return;
-
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % banners.length);
-    }, 5000);
-
-    return () => window.clearInterval(timer);
-  }, [banners.length]);
-
-  if (loading) {
-    return (
-      <section className="flex min-h-[570px] items-center justify-center bg-[#f2f0f1]">
-        <p className="text-gray-600">Loading collection...</p>
-      </section>
-    );
-  }
-
-  if (error || banners.length === 0) {
-    return (
-      <section className="flex min-h-[400px] items-center justify-center bg-[#f2f0f1] px-6">
-        <p className="text-center text-gray-600">
-          {error || "No banners available."}
-        </p>
-      </section>
-    );
-  }
-
-  const slide = banners[activeIndex];
-
-  const previousSlide = () => {
-    setActiveIndex(
-      (current) => (current - 1 + banners.length) % banners.length,
-    );
-  };
-
-  const nextSlide = () => {
-    setActiveIndex((current) => (current + 1) % banners.length);
-  };
-
   return (
-    <section className="relative overflow-hidden bg-[#f2f0f1]">
-      <div className="relative mx-auto max-w-[1440px]">
-        {/* Background image: large screens only */}
-        <div
-          key={slide.id}
-          className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat md:block"
-          style={{ backgroundImage: `url("${slide.image}")` }}
-          role="img"
-          aria-label={slide.title}
-        />
-
-        {/* Gradient: large screens only */}
-        <div className="absolute inset-0 hidden bg-gradient-to-r from-[#f2f0f1] from-15% via-[#f2f0f1]/95 via-40% to-transparent to-80% md:block" />
-
-        {/* Text content */}
-        <div className="relative z-10 flex min-h-[570px] flex-col justify-center px-5 pt-6 pb-10 sm:px-8 sm:pt-3 md:min-h-[610px] md:w-[65%] md:justify-center md:px-10 md:py-12 lg:px-18">
-          <p className="mb-5 text-xs font-semibold tracking-widest text-gray-600">
-            {slide.subtitle}
-          </p>
-
-          <h1 className="max-w-[620px] text-3xl font-black leading-[0.98] tracking-tight text-black sm:text-4xl lg:text-5xl xl:text-6xl">
-            {slide.title}
+    <section className="relative overflow-hidden bg-[#F2F0F1]">
+      <div className="mx-auto flex max-w-[1440px] flex-col px-5 pt-10 sm:px-8 md:flex-row md:items-end md:justify-between md:pt-14 lg:px-20 lg:pt-16">
+        {/* Left Column: Copy, CTA & Stats */}
+        <div className="z-10 max-w-[600px] pt-4 pb-8 sm:pb-12 md:pb-16 lg:pb-24">
+          <h1 className="font-integral text-4xl font-black uppercase leading-[1.0] tracking-tight text-black sm:text-5xl lg:text-[64px]">
+            FIND CLOTHES<br />THAT MATCHES<br />YOUR STYLE
           </h1>
 
-          <p className="mt-6 max-w-[430px] text-sm leading-6 text-gray-600 sm:text-base">
-            {slide.description}
+          <p className="mt-6 max-w-[540px] text-sm leading-6 text-black/60 sm:text-base">
+            Browse through our diverse range of meticulously crafted garments,
+            designed to bring out your individuality and cater to your sense of
+            style.
           </p>
 
-          <a
-            href="/products"
-            className="mt-7 flex w-full items-center justify-center rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800 md:w-fit md:min-w-[160px]"
-          >
-            {slide.buttonText}
-          </a>
+          <div className="mt-8">
+            <Link
+              href="/category/men"
+              className="inline-flex items-center justify-center rounded-full bg-black px-14 py-4 text-base font-medium text-white transition-colors duration-200 hover:bg-neutral-800"
+            >
+              Shop Now
+            </Link>
+          </div>
 
-          {/* Image below button on small screens */}
-          <div className="mt-5 h-[280px] w-full overflow-hidden rounded-xl sm:h-[360px] md:hidden">
+          <HeroStats />
+        </div>
+
+        {/* Right Column: Hero Visual with Sparkle Stars */}
+        <div className="relative flex justify-center md:w-[50%] lg:w-[48%] self-end">
+          {/* Small Sparkle Star on Left */}
+          <Sparkle className="absolute -left-2 top-[46%] z-20 h-11 w-11 text-black sm:-left-4 sm:h-12 sm:w-12 lg:h-14 lg:w-14" />
+
+          {/* Large Sparkle Star on Top Right */}
+          <Sparkle className="absolute right-4 top-2 z-20 h-16 w-16 text-black sm:right-6 sm:top-4 sm:h-20 sm:w-20 lg:h-24 lg:w-24" />
+
+          {/* Transparent Model Cutout Image pinned to bottom edge */}
+          <div className="relative flex items-end justify-center">
             <img
-              key={slide.id}
-              src={slide.image}
-              alt={slide.title}
-              className="h-full w-full object-cover object-center"
+              src="/images/hero.webp"
+              alt="Models representing Shop.co fashion"
+              className="h-auto w-full max-w-[580px] object-contain object-bottom"
             />
           </div>
         </div>
-
-        {/* Slider controls */}
-        {banners.length > 1 && (
-          <>
-            <button
-              type="button"
-              onClick={previousSlide}
-              aria-label="Previous banner"
-              className="absolute left-3 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-2xl md:flex"
-            >
-              ‹
-            </button>
-
-            <button
-              type="button"
-              onClick={nextSlide}
-              aria-label="Next banner"
-              className="absolute right-3 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-2xl md:flex"
-            >
-              ›
-            </button>
-
-            <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-2 md:bottom-5">
-              {banners.map((banner, index) => (
-                <button
-                  key={banner.id}
-                  type="button"
-                  aria-label={`Go to banner ${index + 1}`}
-                  aria-current={activeIndex === index}
-                  onClick={() => setActiveIndex(index)}
-                  className={`h-2.5 sm:w-full rounded-full transition-all ${
-                    activeIndex === index ? "w-7 bg-black" : "w-2.5 bg-gray-400"
-                  }`}
-                />
-              ))}
-            </div>
-          </>
-        )}
       </div>
     </section>
   );

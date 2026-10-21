@@ -1,18 +1,23 @@
-import { brandNames } from "@/mocks/homepage";
-
 export default function BrandsStrip() {
+  const brands = [
+    { name: "Versace", src: "/images/brands/versace.webp", className: "h-7 sm:h-8 md:h-9" },
+    { name: "Zara", src: "/images/brands/zara.webp", className: "h-7 sm:h-8 md:h-9" },
+    { name: "Gucci", src: "/images/brands/gucci.webp", className: "h-7 sm:h-8 md:h-9" },
+    { name: "Prada", src: "/images/brands/prada.webp", className: "h-6 sm:h-7 md:h-8" },
+    { name: "Calvin Klein", src: "/images/brands/calvinklein.webp", className: "h-6 sm:h-7 md:h-8" },
+  ];
+
   return (
-    <section className="bg-black px-5 py-5 sm:px-2">
-      <div className="mx-auto flex max-w-[1240px] flex-wrap items-center justify-center gap-x-10 gap-y-5 md:justify-between md:gap-x-6">
-        {brandNames.map((brand, index) => (
-          <span
-            key={brand}
-            className={`text-2xl font-bold tracking-tight text-white sm:text-2xl lg:text-4xl ${
-              index === 1 || index === 2 || index === 3 ? "font-serif" : ""
-            } ${brand === "Calvin Klein" ? "font-light tracking-tighter" : ""}`}
-          >
-            {brand}
-          </span>
+    <section className="bg-black py-9 sm:py-11">
+      <div className="mx-auto flex max-w-[1440px] flex-wrap items-center justify-between gap-x-8 gap-y-6 px-6 sm:px-12 lg:px-24">
+        {brands.map((brand) => (
+          <div key={brand.name} className="flex items-center justify-center">
+            <img
+              src={brand.src}
+              alt={brand.name}
+              className={`w-auto object-contain transition-opacity duration-200 hover:opacity-80 ${brand.className}`}
+            />
+          </div>
         ))}
       </div>
     </section>

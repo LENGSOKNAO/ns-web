@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { footerData } from "@/mocks/footer";
 import {
   FaXTwitter,
@@ -9,7 +10,7 @@ import {
   FaCcVisa,
   FaCcMastercard,
   FaCcPaypal,
-  FaApplePay,
+  FaCcApplePay,
   FaGooglePay,
 } from "react-icons/fa6";
 
@@ -20,30 +21,30 @@ const socialIcons = {
   github: FaGithub,
 };
 
-const paymentIcons = {
+const paymentIcons: Record<string, React.ComponentType<{ className?: string }>> = {
   Visa: FaCcVisa,
   Mastercard: FaCcMastercard,
   PayPal: FaCcPaypal,
-  "Apple Pay": FaApplePay,
+  "Apple Pay": FaCcApplePay,
   "Google Pay": FaGooglePay,
 };
 
 export default function Footer() {
   return (
-    <footer className="bg-[#f0f0f0] px-5 py-10 sm:px-8 lg:px-10">
-      <div className="mx-auto max-w-[1240px]">
+    <footer className="bg-[#F0F0F0] pt-28 pb-12 sm:pt-32">
+      <div className="mx-auto max-w-[1240px] px-5 sm:px-6">
         {/* Footer main content */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-5 md:gap-8">
+        <div className="grid grid-cols-2 gap-8 md:grid-cols-5 md:gap-8 lg:gap-12">
           {/* Brand and social links */}
           <div className="col-span-2 md:col-span-1">
-            <a
+            <Link
               href="/"
-              className="text-2xl font-black tracking-tighter text-black"
+              className="font-integral text-2xl font-black tracking-tight text-black sm:text-3xl"
             >
-              SSTORE.CO
-            </a>
+              SHOP.CO
+            </Link>
 
-            <p className="mt-4 max-w-[270px] text-sm leading-6 text-gray-500">
+            <p className="mt-4 max-w-[260px] text-sm leading-6 text-black/60">
               {footerData.description}
             </p>
 
@@ -57,31 +58,31 @@ export default function Footer() {
                     key={social.id}
                     href={social.url}
                     aria-label={social.name}
-                    className="flex h-8 w-8 items-center justify-center rounded-full border border-gray-300 bg-white text-sm text-black transition hover:bg-black hover:text-white"
+                    className="flex h-7 w-7 items-center justify-center rounded-full border border-black/10 bg-white text-xs text-black transition-colors duration-200 hover:bg-black hover:text-white"
                   >
-                    <Icon />
+                    {Icon ? <Icon /> : social.name[0]}
                   </a>
                 );
               })}
             </div>
           </div>
 
-          {/* Footer navigation columns */}
+          {/* 4 Link Columns */}
           {footerData.columns.map((column) => (
-            <div key={column.id}>
-              <h3 className="mb-5 text-xs font-medium uppercase tracking-[0.2em] text-black">
+            <div key={column.id} className="col-span-1">
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-black">
                 {column.title}
               </h3>
 
-              <ul className="space-y-3">
+              <ul className="mt-4 space-y-3">
                 {column.links.map((link) => (
                   <li key={link.label}>
-                    <a
+                    <Link
                       href={link.url}
-                      className="text-sm text-gray-500 transition hover:text-black"
+                      className="text-sm text-black/60 transition-colors duration-200 hover:text-black"
                     >
                       {link.label}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -89,25 +90,28 @@ export default function Footer() {
           ))}
         </div>
 
-        {/* Copyright and payment methods */}
-        <div className="mt-10 flex flex-col gap-5 border-t border-gray-300 pt-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-gray-500">{footerData.copyright}</p>
+        {/* Divider */}
+        <div className="mt-12 border-t border-black/10 pt-6 sm:mt-14">
+          <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
+            <p className="text-xs text-black/60 sm:text-sm">
+              {footerData.copyright}
+            </p>
 
-          <div className="flex flex-wrap items-center gap-2">
-            {footerData.paymentMethods.map((payment) => {
-              const Icon =
-                paymentIcons[payment.name as keyof typeof paymentIcons];
-
-              return (
-                <div
-                  key={payment.id}
-                  title={payment.name}
-                  className="flex h-8 min-w-10 items-center justify-center rounded-md border border-gray-200 bg-white px-2"
-                >
-                  <Icon className="text-2xl text-black" />
-                </div>
-              );
-            })}
+            {/* Payment methods */}
+            <div className="flex items-center gap-2 text-2xl text-black">
+              {footerData.paymentMethods.map((method) => {
+                const Icon = paymentIcons[method.name];
+                return (
+                  <span
+                    key={method.id}
+                    className="flex h-7 w-11 items-center justify-center rounded border border-black/10 bg-white text-lg"
+                    title={method.name}
+                  >
+                    {Icon ? <Icon /> : method.name}
+                  </span>
+                );
+              })}
+            </div>
           </div>
         </div>
       </div>
