@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { getBanners } from "@/services/banner.service";
 import type { Banner } from "@/types/catalog";
 
@@ -68,8 +69,6 @@ export default function HeroBanner() {
     );
   }
 
-  const slide = banners[activeIndex];
-
   const previousSlide = () => {
     setActiveIndex(
       (current) => (current - 1 + banners.length) % banners.length,
@@ -82,49 +81,58 @@ export default function HeroBanner() {
 
   return (
     <section className="relative overflow-hidden bg-[#f2f0f1]">
-      <div className="relative mx-auto max-w-[1440px]">
-        {/* Background image: large screens only */}
+      <div className="relative mx-auto max-w-[1440px] overflow-hidden">
         <div
-          key={slide.id}
-          className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat md:block"
-          style={{ backgroundImage: `url("${slide.image}")` }}
-          role="img"
-          aria-label={slide.title}
-        />
-
-        {/* Gradient: large screens only */}
-        <div className="absolute inset-0 hidden bg-gradient-to-r from-[#f2f0f1] from-15% via-[#f2f0f1]/95 via-40% to-transparent to-80% md:block" />
-
-        {/* Text content */}
-        <div className="relative z-10 flex min-h-[570px] flex-col justify-center px-5 pt-6 pb-10 sm:px-8 sm:pt-3 md:min-h-[610px] md:w-[65%] md:justify-center md:px-10 md:py-12 lg:px-18">
-          <p className="mb-5 text-xs font-semibold tracking-widest text-gray-600">
-            {slide.subtitle}
-          </p>
-
-          <h1 className="max-w-[620px] text-3xl font-black leading-[0.98] tracking-tight text-black sm:text-4xl lg:text-5xl xl:text-6xl">
-            {slide.title}
-          </h1>
-
-          <p className="mt-6 max-w-[430px] text-sm leading-6 text-gray-600 sm:text-base">
-            {slide.description}
-          </p>
-
-          <a
-            href="/products"
-            className="mt-7 flex w-full items-center justify-center rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800 md:w-fit md:min-w-[160px]"
-          >
-            {slide.buttonText}
-          </a>
-
-          {/* Image below button on small screens */}
-          <div className="mt-5 h-[280px] w-full overflow-hidden rounded-xl sm:h-[360px] md:hidden">
-            <img
+          className="flex transition-transform duration-500 ease-in-out"
+          style={{
+            transform: `translateX(-${activeIndex * 100}%)`,
+          }}
+        >
+          {banners.map((slide, index) => (
+            <div
               key={slide.id}
-              src={slide.image}
-              alt={slide.title}
-              className="h-full w-full object-cover object-center"
-            />
-          </div>
+              className="relative w-full shrink-0"
+              aria-hidden={activeIndex !== index}
+              inert={activeIndex !== index}
+            >
+              <div
+                className="absolute inset-0 hidden bg-cover bg-center bg-no-repeat md:block"
+                style={{ backgroundImage: `url("${slide.image}")` }}
+                role="img"
+                aria-label={slide.title}
+              />
+              <div className="absolute inset-0 hidden bg-gradient-to-r from-[#f2f0f1] from-15% via-[#f2f0f1]/95 via-40% to-transparent to-80% md:block" />
+
+              <div className="relative z-10 flex min-h-[570px] flex-col justify-center px-5 pt-6 pb-10 sm:px-8 sm:pt-3 md:min-h-[610px] md:w-[65%] md:justify-center md:px-10 md:py-12 lg:px-18">
+                <p className="mb-5 text-xs font-semibold tracking-widest text-gray-600">
+                  {slide.subtitle}
+                </p>
+
+                <h1 className="max-w-[620px] text-3xl font-black leading-[0.98] tracking-tight text-black sm:text-4xl lg:text-5xl xl:text-6xl">
+                  {slide.title}
+                </h1>
+
+                <p className="mt-6 max-w-[430px] text-sm leading-6 text-gray-600 sm:text-base">
+                  {slide.description}
+                </p>
+
+                <Link
+                  href="/products"
+                  className="mt-7 flex w-full items-center justify-center rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800 md:w-fit md:min-w-[160px]"
+                >
+                  {slide.buttonText}
+                </Link>
+
+                <div className="mt-5 h-[280px] w-full overflow-hidden rounded-xl sm:h-[360px] md:hidden">
+                  <img
+                    src={slide.image}
+                    alt={slide.title}
+                    className="h-full w-full object-cover object-center"
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
 
         {/* Slider controls */}

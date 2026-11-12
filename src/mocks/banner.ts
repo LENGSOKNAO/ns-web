@@ -12,8 +12,8 @@ export const bannersData: Banner[] = [
   {
     id: 2,
     subtitle: "NEW COLLECTION",
-    title: "FIND CLOTHES THAT MATCH YOUR STYLE",
-    description: "Discover styles that match your personality.",
+    title: "REFRESH YOUR EVERYDAY STYLE",
+    description: "Discover versatile pieces made to move with you.",
     buttonText: "Shop Now",
     image: "/assets/images/banner-1.png",
   },
