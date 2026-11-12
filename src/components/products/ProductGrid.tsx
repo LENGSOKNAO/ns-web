@@ -14,7 +14,7 @@ export default function ProductGrid({
   const displayProducts = products.slice(0, 8);
 
   return (
-    <HorizontalScroll>
+    <HorizontalScroll showArrows>
       {displayProducts.map((product) => (
         <div
           key={product.id}

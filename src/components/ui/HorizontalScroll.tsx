@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { Children, useEffect, useRef, type ReactNode } from "react";
+import { Children, useEffect, useRef, useState, type ReactNode } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 type HorizontalScrollProps = {
@@ -18,10 +17,21 @@ export default function HorizontalScroll({
   showArrows = false,
   className = "",
   contentClassName = "",
-  activeIndex = 0,
+  activeIndex,
   onActiveIndexChange,
 }: HorizontalScrollProps) {
   const sliderRef = useRef<HTMLDivElement>(null);
+  const [internalActiveIndex, setInternalActiveIndex] = useState(0);
+  const isControlled = activeIndex !== undefined;
+  const currentActiveIndex = activeIndex ?? internalActiveIndex;
+
+  const updateActiveIndex = (index: number) => {
+    if (!isControlled) {
+      setInternalActiveIndex(index);
+    }
+
+    onActiveIndexChange?.(index);
+  };
 
   const scrollToIndex = (index: number) => {
     const slider = sliderRef.current;
@@ -29,31 +39,45 @@ export default function HorizontalScroll({
 
     const maxIndex = slider.children.length - 1;
     const nextIndex = Math.max(0, Math.min(index, maxIndex));
+    const nextItem = slider.children[nextIndex] as HTMLElement | undefined;
+    if (!nextItem) return;
+
+    const offset =
+      nextItem.getBoundingClientRect().left -
+      slider.getBoundingClientRect().left;
 
     slider.scrollTo({
-      left: nextIndex * slider.clientWidth,
+      left: slider.scrollLeft + offset,
       behavior: "smooth",
     });
 
-    onActiveIndexChange?.(nextIndex);
+    updateActiveIndex(nextIndex);
   };
 
   useEffect(() => {
+    if (!isControlled) return;
+
     const slider = sliderRef.current;
     if (!slider) return;
 
-    const item = slider.children[activeIndex] as HTMLElement | undefined;
+    const item = slider.children[currentActiveIndex] as
+      | HTMLElement
+      | undefined;
     if (!item) return;
 
+    const offset =
+      item.getBoundingClientRect().left -
+      slider.getBoundingClientRect().left;
+
     slider.scrollTo({
-      left: item.offsetLeft,
+      left: slider.scrollLeft + offset,
       behavior: "smooth",
     });
-  }, [activeIndex]);
+  }, [currentActiveIndex, isControlled]);
 
   const handleScroll = () => {
     const slider = sliderRef.current;
-    if (!slider || !onActiveIndexChange) return;
+    if (!slider) return;
 
     const sliderLeft = slider.getBoundingClientRect().left;
 
@@ -71,9 +95,8 @@ export default function HorizontalScroll({
       }
     });
 
-    // Only update when the active image actually changes
-    if (closestIndex !== activeIndex) {
-      onActiveIndexChange(closestIndex);
+    if (closestIndex !== currentActiveIndex) {
+      updateActiveIndex(closestIndex);
     }
   };
 
@@ -91,8 +114,8 @@ export default function HorizontalScroll({
         <>
           <button
             type="button"
-            onClick={() => scrollToIndex(activeIndex - 1)}
-            disabled={activeIndex <= 0}
+            onClick={() => scrollToIndex(currentActiveIndex - 1)}
+            disabled={currentActiveIndex <= 0}
             aria-label="Previous image"
             className="absolute left-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-xl text-black shadow-md disabled:opacity-30"
           >
@@ -101,8 +124,8 @@ export default function HorizontalScroll({
 
           <button
             type="button"
-            onClick={() => scrollToIndex(activeIndex + 1)}
-            disabled={activeIndex >= React.Children.count(children) - 1}
+            onClick={() => scrollToIndex(currentActiveIndex + 1)}
+            disabled={currentActiveIndex >= Children.count(children) - 1}
             aria-label="Next image"
             className="absolute right-3 top-1/2 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-xl text-black shadow-md disabled:opacity-30"
           >

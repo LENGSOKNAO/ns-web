@@ -20,7 +20,7 @@ export default function RelatedProducts({
         return Number(bSameCategory) - Number(aSameCategory);
       }
 
-      return b.rating - a.rating;
+      return (b.rating ?? 0) - (a.rating ?? 0);
     })
     .slice(0, 4);
 
@@ -65,11 +65,11 @@ export default function RelatedProducts({
                 {/* Rating */}
                 <div className="mt-1 flex items-center gap-1">
                   <div className="flex text-sm text-amber-400">
-                    {"★".repeat(Math.round(product.rating))}
+                    {"★".repeat(Math.round(product.rating ?? 0))}
                   </div>
 
                   <span className="text-xs text-gray-500">
-                    {product.rating}/5
+                    {product.rating ?? 0}/5
                   </span>
                 </div>
 

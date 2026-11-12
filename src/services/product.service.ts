@@ -1,7 +1,8 @@
 import type { ProductData, ProductResponse } from "@/types/catalog";
-import type { category, ShopProduct } from "@/mocks/products";
+import { productsData, type category, type ShopProduct } from "@/mocks/products";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const USE_MOCK_DATA = process.env.NEXT_PUBLIC_USE_MOCK_DATA !== "false";
 
 function mapProduct(product: ProductData): ShopProduct {
   const images = product.images ?? [];
@@ -59,6 +60,10 @@ function mapProduct(product: ProductData): ShopProduct {
 }
 
 export async function getProducts(): Promise<ShopProduct[]> {
+  if (USE_MOCK_DATA) {
+    return productsData;
+  }
+
   if (!API_URL) {
     throw new Error("NEXT_PUBLIC_API_URL is not configured.");
   }
