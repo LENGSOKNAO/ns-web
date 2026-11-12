@@ -1,5 +1,7 @@
-import { notFound} from "next/navigation";
+import { notFound } from "next/navigation";
 import CategoryContent from "./categorypage";
+import { getProducts } from "@/services/product.service";
+
 const categories = {
   men: "Men",
   women: "Women",
@@ -8,6 +10,10 @@ const categories = {
 } as const;
 
 type CategorySlug = keyof typeof categories;
+
+export function generateStaticParams() {
+  return Object.keys(categories).map((slug) => ({ slug }));
+}
 
 export default async function CategoryPage({
   params,
@@ -21,7 +27,13 @@ export default async function CategoryPage({
   }
 
   const categorySlug = slug as CategorySlug;
-  const category = categories[categorySlug];
+  const products = await getProducts();
 
-  return <CategoryContent category={category} slug={categorySlug} />;
+  return (
+    <CategoryContent
+      category={categories[categorySlug]}
+      slug={categorySlug}
+      initialProducts={products}
+    />
+  );
 }
