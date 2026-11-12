@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getBanners } from "@/services/banner.service";
 import type { Banner } from "@/types/catalog";
-
+import ButtonX from "@/components/ui/ButtonX";
+import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 export default function HeroBanner() {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -116,11 +117,15 @@ export default function HeroBanner() {
                   {slide.description}
                 </p>
 
-                <Link
-                  href="/products"
-                  className="mt-7 flex w-full items-center justify-center rounded-full bg-black px-8 py-3 text-sm font-medium text-white transition hover:bg-gray-800 md:w-fit md:min-w-[160px]"
-                >
-                  {slide.buttonText}
+                <Link href="/products">
+                  <ButtonX
+                    variant="primary"
+                    size="lg"
+                    fullWidth
+                    className="mt-7 md:w-fit md:min-w-[160px]"
+                  >
+                    {slide.buttonText}
+                  </ButtonX>
                 </Link>
 
                 <div className="mt-5 h-[280px] w-full overflow-hidden rounded-xl sm:h-[360px] md:hidden">
@@ -135,28 +140,31 @@ export default function HeroBanner() {
           ))}
         </div>
 
-        {/* Slider controls */}
         {banners.length > 1 && (
           <>
-            <button
-              type="button"
+            {/* Arrows: hidden on mobile, visible from md */}
+            <ButtonX
+              variant="secondary"
+              iconOnly
               onClick={previousSlide}
               aria-label="Previous banner"
-              className="absolute left-3 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-2xl md:flex"
+              className="!hidden md:!inline-flex absolute left-3 top-1/2 z-20 -translate-y-1/2 rounded-full"
             >
-              ‹
-            </button>
+              <FiChevronLeft size={20} />
+            </ButtonX>
 
-            <button
-              type="button"
+            <ButtonX
+              variant="secondary"
+              iconOnly
               onClick={nextSlide}
               aria-label="Next banner"
-              className="absolute right-3 top-1/2 z-20 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white text-2xl md:flex"
+              className="hidden! md:inline-flex! absolute right-3 top-1/2 z-20 -translate-y-1/2 rounded-full"
             >
-              ›
-            </button>
+              <FiChevronRight size={20} />
+            </ButtonX>
 
-            <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-2 md:bottom-5">
+            {/* Dots: hidden on mobile, visible from md */}
+            <div className="!hidden md:!flex absolute bottom-3 left-1/2 z-20 -translate-x-1/2 gap-2 md:bottom-5">
               {banners.map((banner, index) => (
                 <button
                   key={banner.id}
@@ -164,7 +172,7 @@ export default function HeroBanner() {
                   aria-label={`Go to banner ${index + 1}`}
                   aria-current={activeIndex === index}
                   onClick={() => setActiveIndex(index)}
-                  className={`h-2.5 sm:w-full rounded-full transition-all ${
+                  className={`h-2.5 rounded-full transition-all ${
                     activeIndex === index ? "w-7 bg-black" : "w-2.5 bg-gray-400"
                   }`}
                 />
